@@ -13,7 +13,7 @@ Voici quelques paquets utilisés en Python :
 3. Selenium : Un paquet pour l'automatisation de navigateurs web
 4. Pandas : Un paquet pour la manipulation et l'analyse de données
 ## Source des données
-
+Le site d'achat que nous avons choisir est le suivant : https://hobbii.fr/fils
 ## Méthodes principales
 
 ## Conclusions
