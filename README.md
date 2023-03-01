@@ -15,7 +15,8 @@ Voici quelques paquets utilisés en Python :
 ## Source des données
 Le site d'achat que nous avons choisir est le suivant : https://hobbii.fr/fils
 ## Méthodes principales
-
+1. Utiliser "selenium" qui permet d'effectuer les tests automatisés sur les navigateurs Web 
+2. 
 ## Conclusions
 
 ## Applications
