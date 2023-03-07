@@ -3,7 +3,7 @@
 ## Introduction
 L'objectif de ce projet est de créer un Web Crawler capable de collecter automatiquement des données à partir de sites Web. Le crawler sera créé dans le but d'extraire des données particulières de sites Web et de les stocker dans une base de données ou un fichier local. Après cela, ces données peuvent être examinées, traitées ou appliquées d'autres manières.
 #### Crawling le site web d’achat de fils de laine pour faire du tricot
-Notre groupe essayons de crawling le site web d’achat de fils de laine pour faire du tricotet d'utiliser nos codes pour extraire des données sur les fils, telles que la marque,la note,le matériel,le prix et le nombre de couleur. Les données extraites seront ensuite utilisées pour recommander des fils aux utilisateurs et choisir leurs fils préférés.
+Notre groupe essayons de crawling le site web d’achat de fils de laine pour faire du tricotet et d'utiliser nos codes pour extraire des données sur les fils, telles que la marque,le nom,le prix,le discount et le rating. Les données extraites seront ensuite utilisées pour recommander le bon produit pour l'utilisateur lorsque l'on connaît son budget et ses exigences en matière d'évaluation.
 ## Environnement de dévéloppement
 Toute plate-forme, y compris Windows, macOS ou Linux, qui prend en charge Python peut être utilisée pour construire ce projet Web Crawler. L'installation de Python et d'un éditeur de code ou d'un environnement de développement intégré est nécessaire pour créer un environnement de développement (IDE).
 ## Paguets de dépendances
