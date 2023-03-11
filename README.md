@@ -19,6 +19,6 @@ Le site d'achat que nous avons choisir est le suivant : https://hobbii.fr/fils
 3. Bouclez les pages disponibles et stockez les résultats
 4. Organiser et stocker les données dont nous avons besoin
 5. Consulter les exigences de l'utilisateur et fournir les résultats correspondants0
-#### (Etape 1&2 dans le script "Web_scraper.ipynb" ; Etape 3&4 dans le script "Clean_data.ipynb" ; Etape 5 dans le script principal "main.ipynb")
+###### (Etape 1&2 dans le script "Web_scraper.ipynb" ; Etape 3&4 dans le script "Clean_data.ipynb" ; Etape 5 dans le script principal "main.ipynb")
 ## Applications
 Cet outil est très pratique et peut être appliqué à de nombreux sites d'achat. Lorsque nous voulons acheter un produit mais que nous ne voulons pas parcourir tous les sites web de produits, ce crawler peut nous faire gagner beaucoup de temps.
