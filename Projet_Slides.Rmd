@@ -1,0 +1,153 @@
+---
+title: "Projet : Web Crawler" 
+author: "Yuqi ZHANG"
+date: "`r Sys.Date()`"
+output: ioslides_presentation
+widescreen: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, cache = TRUE, warning = TRUE, message = FALSE)
+```
+
+## Introduction
+
+L'objectif de ce projet est de créer un Web Crawler capable de collecter automatiquement des données à partir de sites Web. Le crawler sera créé dans le but d'extraire des données particulières de sites Web et de les stocker dans une base de données ou un fichier local. Après cela, ces données peuvent être examinées, traitées ou appliquées d'autres manières. 
+
+Sites web utilisés ： <https://hobbii.fr/fils>
+```{r,echo=FALSE, out.width="40%",fig.align='right'}
+knitr::include_graphics("/Users/luciezhang/Downloads/photo5.png")
+```
+
+## Méthodes principales
+
+- Step 1 ：Obtenir la source html d'une page web donnée
+- Step 2 ：Détecter s'il y a une page suivante
+- Step 3 ：Bouclez les pages disponibles et stockez les résultats
+- Step 4 ：Organiser et stocker les données dont nous avons besoin
+- Step 5 ：Consulter les exigences de l'utilisateur et fournir les résultats 
+
+
+
+## Web Scraper
+
+```
+# Get html source from certain web page
+def load_page(page_num: int):
+    driver.get(url=base_url + "?page=" + str(page_num))
+    sleep(2.5)
+    soup_obj = BeautifulSoup(driver.page_source, 'lxml')
+    return soup_obj
+
+
+# Detect if there's a next page
+def go_next(soup_obj: BeautifulSoup):
+    next_page_disabled = soup_obj.find(name='a'，
+    class_='glyphicon glyphicon-menu-right').attrs.get('disabled')
+    if next_page_disabled == 'false':
+        return True
+    else:
+        return False
+```
+
+
+## Collecte de données-1
+```
+def process_with_pandas(soup_obj: BeautifulSoup, store: list):
+    
+    items = soup_obj.find_all(name='div', attrs={'class': 'caption'})
+
+    for item in items:
+        if item.find(class_='product-rating') is not None:
+            rating = float(item.find(class_='product-rating').get_text())
+        else:
+            rating = 0.0  # refers to no rating
+        info_dict = {'name': item.h3.get_text(), 
+                     'html_link': item.h3.a.attrs['href'],
+                     'price': item.find(class_="price").get_text(), 
+                     'rating': rating}
+```
+## Collecte de données-2
+```
+# Navigate to the product page and extract the color information
+        driver.get(info_dict['html_link'])
+        sleep(2.5)
+        product_soup = BeautifulSoup(driver.page_source, 'lxml')
+        color_div = product_soup.find(name='div', 
+                                      attrs={'class': 'option-image'})
+        if color_div is not None:
+            color_links = color_div.find_all(name='data-v-99597412')
+            colors = [link.get_text() for link in color_links]
+            info_dict['colors'] = colors
+        else:
+            info_dict['colors'] = []
+store.append(info_dict)
+```
+```{r,fig.align='left'}
+knitr::include_graphics(path = "/Users/luciezhang/Downloads/photo6.png")
+```
+
+## Exemple-1
+
+```{r,fig.align='center'}
+knitr::include_graphics(path = "/Users/luciezhang/Desktop/photo3.png")
+```
+
+## Traitement des données
+
+```
+def process_data(df):
+    # process the price string to float value of price
+    # for those having a discount, calculate discount percentage
+    for i in range(0, len(df)):
+        s = df['price'][i]
+        if s[2] == 'p':
+            df.loc[i, 'price'] = float(s[12:-2].replace(',', '.'))
+            df.loc[i, 'discounted'] = 0.0
+        else:
+            df.loc[i, 'price'] = float(s.split(' €')[0].replace(',', '.'))
+            if len(s.split(' €')) > 2:
+                df.loc[i, 'discounted'] = 1 - 
+                float(s.split(' €')[0].replace(',', '.')) 
+                / float(s.split(' €')[1].replace(',', '.'))
+            else:
+                df.loc[i, 'discounted'] = 0.0
+
+df = df.round({'discounted': 2})
+```
+
+## Consultations et résultats
+
+```
+# find product with good rating
+user_rating = float(input("Enter a minimum rating: "))
+print("Showing products with rating greater than or equal to" + user_rating)
+print(df[df['rating'] >= float(user_rating)].sort_values(by='rating', ascending=False))
+
+# find a product with good discount
+user_discount = float(input("Enter a minimum discount: "))
+print("Showing products with discount greater than or equal to" + user_discount)
+print(df[df['discounted'] >= float(user_discount)].sort_values(by='discounted'，ascending=False))
+
+# find product with low price
+user_price = float(input("Enter a maximum price: "))
+print("Showing products with price lower than or equal to" + user_price)
+print(df[df['price'] <= float(user_price)].sort_values(by='price', ascending=True))
+
+# show number of colors available for each product
+print(df[['name', 'num_colors']])
+```
+
+## Exemple-2
+
+```{r,fig.align='center'}
+knitr::include_graphics(path = "/Users/luciezhang/Desktop/photo2.png")
+```
+
+## Conclusions
+- Cet outil est très pratique et peut être appliqué à de nombreux sites d'achat. 
+- Lorsque nous voulons acheter un produit mais que nous ne voulons pas parcourir tous les sites web de produits, ce crawler peut nous faire gagner beaucoup de temps.
+
+```{r,fig.align='center',out.width="50%"}
+knitr::include_graphics(path = "/Users/luciezhang/Downloads/photo4.jpeg")
+```
